@@ -10,11 +10,11 @@ from modules.vndb import Vndb
 
 if __name__ == "__main__":
     # connect db
-    vndb_conn = psycopg2.connect(database='vndb', user='postgres', password='postgres', host='192.168.5.17',
-                                 port='5432')
+    vndb_conn = psycopg2.connect(database='vndb', user='vndb', password='vndb', host='localhost',
+                                 port='10001')
     vndb_cur = vndb_conn.cursor()
-    bangumi_conn = psycopg2.connect(database='bangumi', user='postgres', password='postgres', host='192.168.5.17',
-                                    port='5432')
+    bangumi_conn = psycopg2.connect(database='bangumi', user='bangumi', password='bangumi', host='localhost',
+                                    port='10000')
     bangumi_cur = bangumi_conn.cursor()
 
     # var

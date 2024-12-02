@@ -1,24 +1,26 @@
 name: Update game_id_connector
 
 on:
-  push:
-    branches: [ "master" ]
-  pull_request:
-    branches: [ "master" ]
+  schedule:
+    - cron: "0 0 * * 0"
+  workflow_dispatch:
 
 jobs:
-  update:
+  ci:
 
     runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v4
 
-    - name: Build and run docker compose
-      uses: hoverkraft-tech/compose-action@v2.0.2
+    - name: Setup docker-compose
+      uses: KengoTODA/actions-setup-docker-compose@v1.2.3
       with:
-          compose-file: "scripts/vndb_id_connector/docker-compose.yml"
-    
+        version: "2.31.0"
+    - name: Build and run docker compose containers
+      run: |
+        cd scripts/vndb_id_connector
+        docker compose up -d
     - name: Set up Python 3.10
       uses: actions/setup-python@v3
       with:
@@ -38,3 +40,6 @@ jobs:
 
     - name: GitHub Commit & Push
       uses: actions-js/push@v1.5
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        branch: "master"
