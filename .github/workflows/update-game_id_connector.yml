@@ -29,6 +29,10 @@ jobs:
       run: |
         cd scripts/game_id_merger
         python main.py
+    - name: Stop docker compose containers
+      run: |
+        cd scripts/vndb_id_connector
+        docker compose down
 
     - name: GitHub Commit & Push
       uses: actions-js/push@v1.5
