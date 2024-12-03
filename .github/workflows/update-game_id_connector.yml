@@ -24,6 +24,7 @@ jobs:
     - name: Run vndb_id_connector
       run: |
         sleep 180
+        pip install psycopg2
         cd scripts/vndb_id_connector
         python main.py
     - name: Run game_id_merger
