@@ -21,6 +21,11 @@ jobs:
       run: |
         cd scripts/vndb_id_connector
         docker compose up -d
+    - name: Wait for vndb-connector container to exit
+      run: |
+        cd scripts/vndb_id_connector
+        docker wait vndb-connector
+        docker compose down
     - name: Set up Python 3.10
       uses: actions/setup-python@v3
       with:
@@ -29,10 +34,6 @@ jobs:
       run: |
         cd scripts/game_id_merger
         python main.py
-    - name: Stop docker compose containers
-      run: |
-        cd scripts/vndb_id_connector
-        docker compose down
 
     - name: GitHub Commit & Push
       uses: actions-js/push@v1.5

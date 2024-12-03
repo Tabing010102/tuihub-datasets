@@ -12,6 +12,7 @@ services:
     restart: unless-stopped
   vndb-connector:
     build: ./
+    container_name: vndb-connector
     networks:
       - net-vndb-connector
     depends_on:
