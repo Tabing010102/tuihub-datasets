@@ -3,12 +3,19 @@ services:
   bangumi-db:
     build: https://github.com/tuihub/bangumi-db.git#master:postgresql
     privileged: false
+    hostname: "bangumi-db"
     restart: unless-stopped
-    ports:
-      - 10000:5432
-  vndb:
+  vndb-db:
     build: https://github.com/tuihub/vndb-db.git#master
     privileged: false
+    hostname: "vndb-db"
     restart: unless-stopped
-    ports:
-      - 10001:5432
+  vndb_connector:
+    build: ./
+    privileged: false
+    restart: no
+    depends_on:
+      - vndb-db
+      - bangumi-db
+    volumes:
+      - "../../game_id_connector:/game_id_connector"
