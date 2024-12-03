@@ -13,23 +13,19 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
-    - name: Setup docker-compose
-      uses: KengoTODA/actions-setup-docker-compose@v1.2.3
-      with:
-        version: "2.31.0"
     - name: Build and run docker compose containers
       run: |
         cd scripts/vndb_id_connector
         docker compose up -d
-    - name: Wait for vndb-connector container to exit
-      run: |
-        cd scripts/vndb_id_connector
-        docker wait vndb-connector
-        docker compose down
     - name: Set up Python 3.10
       uses: actions/setup-python@v3
       with:
         python-version: "3.10"
+    - name: Run vndb_id_connector
+      run: |
+        sleep 180
+        cd scripts/vndb_id_connector
+        python main.py
     - name: Run game_id_merger
       run: |
         cd scripts/game_id_merger
@@ -39,4 +35,4 @@ jobs:
       uses: actions-js/push@v1.5
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
-        branch: "master"
+        branch: "test1"

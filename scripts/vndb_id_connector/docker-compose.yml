@@ -2,25 +2,11 @@ version: "3"
 services:
   bangumi-db:
     build: https://github.com/tuihub/bangumi-db.git#master:postgresql
-    networks:
-      - net-vndb-connector
     restart: unless-stopped
+    ports:
+      - 10000:5432
   vndb-db:
     build: https://github.com/tuihub/vndb-db.git#master
-    networks:
-      - net-vndb-connector
     restart: unless-stopped
-  vndb-connector:
-    build: ./
-    container_name: vndb-connector
-    networks:
-      - net-vndb-connector
-    depends_on:
-      - bangumi-db
-      - vndb-db
-    restart: no
-    volumes:
-      - "../../game_id_connector:/game_id_connector"
-    entrypoint: [ "sh", "-c", "sleep 180 && python main.py /game_id_connector/2-vndb_automated.json"]
-networks:
-  net-vndb-connector:
+    ports:
+      - 10001:5432
